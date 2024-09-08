@@ -24,20 +24,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
         .section {
             background-color: #333; /* Dark gray background for sections */
             border: 1px solid #444; /* Slightly lighter gray border */
             padding: 1rem;
             margin: 0.5rem;
-            width: 80%;
-            max-width: 600px;
+            width: 100%; /* Section takes full width */
+            max-width: 1200px; /* Maximum section width */
             text-align: center;
         }
         .item-list {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between; /* Items spread across the width */
             gap: 20px;
         }
         .item {
@@ -45,7 +46,7 @@
             border: 1px solid #444; /* Slightly lighter gray border */
             padding: 1rem;
             margin: 0.5rem;
-            width: 45%; /* Each item takes 45% of the row */
+            width: 48%; /* Items take about half of the section width */
             box-sizing: border-box;
             text-align: left;
         }
@@ -63,6 +64,13 @@
         /* Legendary rarity styles (yellow text) */
         .legendary {
             color: yellow;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .item {
+                width: 100%; /* Items take full width on small screens */
+            }
         }
     </style>
 </head>
