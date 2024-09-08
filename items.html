@@ -18,6 +18,22 @@
         h1 {
             font-size: 2rem;
             margin-top: 1rem;
+            display: inline-block;
+        }
+        .filter-buttons {
+            margin-left: 1rem;
+            display: inline-block;
+        }
+        .filter-buttons button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+        .filter-buttons button:hover {
+            background-color: #444;
         }
         .sections {
             margin-top: 2rem;
@@ -76,35 +92,36 @@
 </head>
 <body>
     <h1>Items</h1>
+    <div class="filter-buttons">
+        <button onclick="sortItems('alphabetic')">Alphabetic (A - Z)</button>
+        <button onclick="sortItems('rarity')">Rarity</button>
+        <button onclick="sortItems('reverse')">Z - A</button>
+    </div>
     <div class="sections">
         <div class="section" id="home">
             <h2><a href="index.html">Home</a></h2>
         </div>
         <div class="section" id="items">
             <h2>Item List</h2>
-            <div class="item-list">
-                <!-- Secret item (red text) -->
+            <div class="item-list" id="item-list">
                 <div class="item secret">
                     <p><strong>Name:</strong> Fall</p>
                     <p><strong>Rarity:</strong> Secret</p>
                     <p><strong>Obtainable:</strong> False</p>
                     <p><strong>Value:</strong> 9999999M</p>
                 </div>
-                <!-- Rare item (blue text) -->
                 <div class="item rare">
                     <p><strong>Name:</strong> Another Item</p>
                     <p><strong>Rarity:</strong> Rare</p>
                     <p><strong>Obtainable:</strong> True</p>
                     <p><strong>Value:</strong> 500M</p>
                 </div>
-                <!-- Legendary item (yellow text) -->
                 <div class="item legendary">
                     <p><strong>Name:</strong> Example Item</p>
                     <p><strong>Rarity:</strong> Legendary</p>
                     <p><strong>Obtainable:</strong> True</p>
                     <p><strong>Value:</strong> 100M</p>
                 </div>
-                <!-- Another secret item (red text) -->
                 <div class="item secret">
                     <p><strong>Name:</strong> Special Item</p>
                     <p><strong>Rarity:</strong> Secret</p>
@@ -114,5 +131,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const items = [...document.querySelectorAll('.item')];
+        
+        function sortItems(type) {
+            const itemList = document.getElementById('item-list');
+            let sortedItems;
+
+            if (type === 'alphabetic') {
+                sortedItems = items.sort((a, b) => a.querySelector('p').textContent.localeCompare(b.querySelector('p').textContent));
+            } else if (type === 'rarity') {
+                const rarityOrder = { 'secret': 1, 'legendary': 2, 'rare': 3 };
+                sortedItems = items.sort((a, b) => rarityOrder[a.classList[1]] - rarityOrder[b.classList[1]]);
+            } else if (type === 'reverse') {
+                sortedItems = items.sort((a, b) => b.querySelector('p').textContent.localeCompare(a.querySelector('p').textContent));
+            }
+
+            itemList.innerHTML = '';
+            sortedItems.forEach(item => itemList.appendChild(item));
+        }
+    </script>
 </body>
 </html>
