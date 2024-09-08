@@ -12,9 +12,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
             background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            color: #fff; /* Default white text */
         }
         h1 {
             font-size: 2rem;
@@ -35,14 +34,35 @@
             max-width: 600px;
             text-align: center;
         }
+        .item-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
         .item {
             background-color: #222; /* Darker gray for item background */
             border: 1px solid #444; /* Slightly lighter gray border */
             padding: 1rem;
-            margin: 1rem 0;
-            width: 100%;
-            max-width: 500px;
+            margin: 0.5rem;
+            width: 45%; /* Each item takes 45% of the row */
+            box-sizing: border-box;
             text-align: left;
+        }
+        .item p {
+            margin: 0.5rem 0;
+        }
+        /* Secret rarity styles (red text) */
+        .secret {
+            color: red;
+        }
+        /* Rare rarity styles (blue text) */
+        .rare {
+            color: blue;
+        }
+        /* Legendary rarity styles (yellow text) */
+        .legendary {
+            color: yellow;
         }
     </style>
 </head>
@@ -54,11 +74,35 @@
         </div>
         <div class="section" id="items">
             <h2>Item List</h2>
-            <div class="item">
-                <p><strong>Name:</strong> Fall</p>
-                <p><strong>Rarity:</strong> Secret</p>
-                <p><strong>Obtainable:</strong> False</p>
-                <p><strong>Value:</strong> 9999999M</p>
+            <div class="item-list">
+                <!-- Secret item (red text) -->
+                <div class="item secret">
+                    <p><strong>Name:</strong> Fall</p>
+                    <p><strong>Rarity:</strong> Secret</p>
+                    <p><strong>Obtainable:</strong> False</p>
+                    <p><strong>Value:</strong> 9999999M</p>
+                </div>
+                <!-- Rare item (blue text) -->
+                <div class="item rare">
+                    <p><strong>Name:</strong> Another Item</p>
+                    <p><strong>Rarity:</strong> Rare</p>
+                    <p><strong>Obtainable:</strong> True</p>
+                    <p><strong>Value:</strong> 500M</p>
+                </div>
+                <!-- Legendary item (yellow text) -->
+                <div class="item legendary">
+                    <p><strong>Name:</strong> Example Item</p>
+                    <p><strong>Rarity:</strong> Legendary</p>
+                    <p><strong>Obtainable:</strong> True</p>
+                    <p><strong>Value:</strong> 100M</p>
+                </div>
+                <!-- Another secret item (red text) -->
+                <div class="item secret">
+                    <p><strong>Name:</strong> Special Item</p>
+                    <p><strong>Rarity:</strong> Secret</p>
+                    <p><strong>Obtainable:</strong> False</p>
+                    <p><strong>Value:</strong> 1B</p>
+                </div>
             </div>
         </div>
     </div>
