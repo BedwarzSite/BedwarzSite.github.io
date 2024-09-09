@@ -49,6 +49,21 @@
         .common {
             color: gray;
         }
+        /* Item list */
+        .item-list {
+            margin-top: 2rem;
+        }
+        .item-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .item-list li {
+            margin: 0.5rem 0;
+        }
+        .item-list a {
+            color: #00f;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -58,17 +73,16 @@
         <!-- Item details will be dynamically added here -->
     </div>
 
+    <div class="item-list" id="item-list">
+        <h2>Available Items:</h2>
+        <ul>
+            <!-- List of items will be dynamically added here -->
+        </ul>
+    </div>
+
     <script>
         // Define all the items in an object
         const itemsData = {
-            "Fall": {
-                name: "Fall",
-                rarity: "Secret",
-                obtainable: false,
-                value: "Unknown",
-                type: "Emote",
-                description: "A mysterious emote."
-            },
             "Fade": {
                 name: "Fade",
                 rarity: "Secret",
@@ -181,9 +195,10 @@
         // Function to display item details
         function displayItemDetails(itemName) {
             const item = itemsData[itemName];
+            const itemDetailsDiv = document.getElementById('item-details');
+            const itemListDiv = document.getElementById('item-list');
 
             if (item) {
-                const itemDetailsDiv = document.getElementById('item-details');
                 const rarityClass = item.rarity.toLowerCase(); // Apply rarity class
                 itemDetailsDiv.innerHTML = `
                     <h2 class="${rarityClass}">${item.name}</h2>
@@ -193,13 +208,32 @@
                     <p><strong>Type:</strong> ${item.type}</p>
                     <p><strong>Description:</strong> ${item.description}</p>
                 `;
+                itemListDiv.style.display = 'none'; // Hide the item list when an item is found
             } else {
-                document.getElementById('item-details').innerHTML = `<p>Item not found.</p>`;
+                // If no specific item is found, show available items
+                itemDetailsDiv.innerHTML = `<p>Select an item from the list below.</p>`;
+                displayItemList();
+            }
+        }
+
+        // Function to display the list of available items
+        function displayItemList() {
+            const itemListUl = document.querySelector('.item-list ul');
+            itemListUl.innerHTML = ''; // Clear the list before adding items
+
+            for (const item in itemsData) {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<a href="items.html/${encodeURIComponent(item)}">${itemsData[item].name}</a>`;
+                itemListUl.appendChild(listItem);
             }
         }
 
         // Call the function to display details
-        displayItemDetails(itemName);
+        if (itemName && itemName !== 'items.html') {
+            displayItemDetails(itemName);
+        } else {
+            displayItemList(); // Show the item list if no specific item is in the URL
+        }
     </script>
 </body>
 </html>
