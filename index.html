@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bedwarz Site</title>
+    <title>Home - Bedwarz Site</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,12 +12,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000;
+            color: #fff;
         }
         h1 {
-            font-size: 2rem;
             margin-top: 1rem;
         }
         .sections {
@@ -25,31 +23,34 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
         .section {
-            background-color: #333; /* Dark gray background for sections */
-            border: 1px solid #444; /* Slightly lighter gray border */
+            background-color: #333;
+            border: 1px solid #444;
             padding: 1rem;
             margin: 0.5rem;
-            width: 80%;
-            max-width: 600px;
+            width: 100%;
+            max-width: 1200px;
             text-align: center;
         }
-        .section a {
-            color: #fff;
+        a {
+            color: yellow;
             text-decoration: none;
-            font-size: 1.2rem;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <h1>Bedwarz Site</h1>
     <div class="sections">
-        <div class="section" id="home">
-            <h2>Home</h2>
-        </div>
         <div class="section" id="items">
             <h2><a href="items.html">Items</a></h2>
+        </div>
+        <div class="section" id="update-logs">
+            <h2><a href="updatelogs.html">Update Logs</a></h2>
         </div>
     </div>
 </body>
