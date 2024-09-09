@@ -243,11 +243,11 @@
             const opponentTotal = opponentItems.reduce((sum, item) => sum + (item.dataset.value === 'inf' ? Infinity : parseInt(item.dataset.value)) || 0, 0);
 
             if (yourTotal < opponentTotal) {
-                document.getElementById('trade-result').textContent = 'Winning';
+                document.getElementById('trade-result').textContent = 'Losing';
             } else if (yourTotal === opponentTotal) {
                 document.getElementById('trade-result').textContent = 'Fair';
             } else {
-                document.getElementById('trade-result').textContent = 'Losing';
+                document.getElementById('trade-result').textContent = 'Winning';
             }
         }
 
