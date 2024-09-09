@@ -18,289 +18,245 @@
         h1 {
             font-size: 2rem;
             margin-top: 1rem;
-            display: inline-block;
         }
-        .trading-container {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem;
-        }
-        .trading-section {
-            background-color: #333; /* Dark gray background for sections */
-            border: 1px solid #444; /* Slightly lighter gray border */
-            padding: 1rem;
-            width: 300px;
-            text-align: center;
-        }
-        .trading-section h2 {
-            font-size: 1.5rem;
-        }
-        .trading-list {
+        .container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: left;
-        }
-        .trading-item {
-            background-color: #222; /* Darker gray for item background */
-            border: 1px solid #444; /* Slightly lighter gray border */
-            padding: 0.5rem;
-            margin: 0.5rem 0;
             width: 100%;
+            max-width: 1200px;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .trade-section {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px;
+            margin: 1rem 0;
+        }
+        .trade-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .trading-item p {
-            margin: 0;
-        }
-        .trading-item button {
-            background-color: #444;
-            color: #fff;
-            border: none;
-            padding: 0.5rem;
-            cursor: pointer;
-        }
-        .trading-item button:hover {
-            background-color: #555;
-        }
-        .result {
-            margin-top: 1rem;
-            font-size: 1.2rem;
-        }
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-        .modal-content {
             background-color: #333;
-            margin: 5% auto;
-            padding: 20px;
             border: 1px solid #444;
-            width: 80%;
-            max-width: 500px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            box-sizing: border-box;
         }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: #fff;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .item-list {
-            display: flex;
-            flex-direction: column;
-        }
-        .item-list button {
+        .item-list-container, .gold-input-container {
             background-color: #444;
-            color: #fff;
-            border: none;
+            border: 1px solid #555;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .item-list, .gold-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .item, .gold {
+            background-color: #222;
+            border: 1px solid #555;
             padding: 0.5rem;
-            margin: 0.2rem 0;
+            margin: 0.5rem;
+            border-radius: 5px;
             cursor: pointer;
+            flex: 1 1 100px;
+            text-align: center;
         }
-        .item-list button:hover {
-            background-color: #555;
+        .item:hover, .gold:hover {
+            background-color: #333;
         }
-        .gold-input {
+        .item img {
+            max-width: 100px;
+            height: auto;
+        }
+        .add-item, .add-gold {
             margin-top: 1rem;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
         }
-        .gold-input input {
-            margin: 0.5rem 0;
+        .add-item button, .add-gold button {
+            background-color: #555;
+            border: 1px solid #666;
+            color: #fff;
             padding: 0.5rem;
-            width: 100px;
+            margin: 0 0.5rem;
+            cursor: pointer;
+        }
+        .add-item button:hover, .add-gold button:hover {
+            background-color: #666;
+        }
+        .trade-result {
+            background-color: #222;
+            border: 1px solid #333;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+        }
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .item, .gold {
+                flex: 1 1 100px;
+                margin: 0.5rem 0;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Trading Values</h1>
-    <div class="trading-container">
-        <!-- Player's trading section -->
-        <div class="trading-section">
-            <h2>You</h2>
-            <div class="trading-list" id="player-items">
-                <!-- Dynamic items will be added here -->
-            </div>
-            <p>Total Value: <span id="player-total">0</span></p>
-            <button onclick="openModal()">Add Item</button>
-            <div class="gold-input">
-                <input type="number" id="player-gold" placeholder="Gold amount">
-                <button onclick="addGold()">Add Gold</button>
+    <div class="container">
+        <h1>Trading Values</h1>
+        <div class="trade-section">
+            <div class="trade-container">
+                <div class="your-trade">
+                    <h2>You</h2>
+                    <div id="your-items">
+                        <!-- Trade items go here -->
+                    </div>
+                    <div class="add-item">
+                        <button onclick="showItemList('your-items')">Add Item</button>
+                    </div>
+                    <div class="gold-input-container">
+                        <input type="number" id="your-gold" placeholder="Enter gold amount">
+                        <button onclick="addGold('your-items')">Add Gold</button>
+                    </div>
+                </div>
+                <div class="trade-result">
+                    <p><strong>Result:</strong> <span id="trade-result">N/A</span></p>
+                </div>
+                <div class="opponent-trade">
+                    <h2>Player</h2>
+                    <div id="opponent-items">
+                        <!-- Trade items go here -->
+                    </div>
+                    <div class="add-item">
+                        <button onclick="showItemList('opponent-items')">Add Item</button>
+                    </div>
+                    <div class="gold-input-container">
+                        <input type="number" id="opponent-gold" placeholder="Enter gold amount">
+                        <button onclick="addGold('opponent-items')">Add Gold</button>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <!-- Opponent's trading section -->
-        <div class="trading-section">
-            <h2>Player</h2>
-            <div class="trading-list" id="opponent-items">
-                <!-- Dynamic items will be added here -->
-            </div>
-            <p>Total Value: <span id="opponent-total">0</span></p>
-            <button onclick="openModal(true)">Add Item</button>
-            <div class="gold-input">
-                <input type="number" id="opponent-gold" placeholder="Gold amount">
-                <button onclick="addGold(true)">Add Gold</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="result" id="result">
-        Result: Fair
-    </div>
-
-    <!-- The Modal -->
-    <div id="itemModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+        <div class="item-list-container" id="item-list-container">
             <h2>Item List</h2>
-            <div class="item-list" id="item-list">
-                <!-- Item buttons will be dynamically added here -->
+            <div class="item-list">
+                <!-- Dynamically added items go here -->
             </div>
         </div>
     </div>
 
     <script>
         const items = [
-            { name: 'Death Lord', value: 670 },
-            { name: 'Warlord', value: 1025 },
-            { name: 'Fade', value: 'Inf' },
-            { name: 'Fall', value: 'Inf' },
-            { name: 'Grass Block', value: 250 },
-            { name: 'Bluist', value: 3045 },
-            { name: 'Blue Lord', value: 6750 },
-            { name: 'Angelic', value: 3450 },
-            { name: 'On Top', value: 450 },
-            { name: 'Demonist', value: 3450 },
-            { name: 'Lawn Mowing', value: 25 },
-            { name: 'Fake Death', value: 230 },
-            { name: 'R6', value: 420 },
-            { name: 'Gold', value: 1 }
+            { name: 'Fade', rarity: 'Secret', value: 'inf', type: 'Emote' },
+            { name: 'Warlord', rarity: 'Legendary', value: 1025, type: 'Emote' },
+            { name: 'Grass Block', rarity: 'Legendary', value: 250, type: 'Emote' },
+            { name: 'Death Lord', rarity: 'Legendary', value: 670, type: 'Emote' },
+            { name: 'Bluist', rarity: 'Legendary', value: 3045, type: 'Emote' },
+            { name: 'Blue Lord', rarity: 'Legendary', value: 6750, type: 'Emote' },
+            { name: 'Angelic', rarity: 'Legendary', value: 3450, type: 'Emote' },
+            { name: 'On Top', rarity: 'Legendary', value: 450, type: 'Emote' },
+            { name: 'Demonist', rarity: 'Legendary', value: 3450, type: 'Emote' },
+            { name: 'Lawn Mowing', rarity: 'Rare', value: 25, type: 'Emote' },
+            { name: 'Fake Death', rarity: 'Rare', value: 230, type: 'Emote' },
+            { name: 'R6', rarity: 'Legendary', value: 420, type: 'Emote' },
+            { name: 'Gold', rarity: 'Common', value: 1, type: 'Currency' },
+            { name: 'Fall', rarity: 'Secret', value: 'inf', type: 'Emote' }
         ];
 
-        let playerTotal = 0;
-        let opponentTotal = 0;
-        let isOpponent = false;
-
-        function openModal(forOpponent = false) {
-            isOpponent = forOpponent;
-            const modal = document.getElementById('itemModal');
-            const itemList = document.getElementById('item-list');
-
+        function showItemList(targetId) {
+            const container = document.getElementById('item-list-container');
+            const itemList = container.querySelector('.item-list');
             itemList.innerHTML = '';
+
             items.forEach(item => {
-                const button = document.createElement('button');
-                button.textContent = `${item.name} (Value: ${item.value})`;
-                button.onclick = () => addItem(item.name, item.value, isOpponent);
-                itemList.appendChild(button);
+                const div = document.createElement('div');
+                div.classList.add('item');
+                div.textContent = item.name;
+                div.onclick = () => addItem(targetId, item);
+                itemList.appendChild(div);
             });
 
-            modal.style.display = 'block';
+            container.style.display = 'block';
         }
 
-        function closeModal() {
-            document.getElementById('itemModal').style.display = 'none';
-        }
-
-        function addItem(name, value, isOpponent) {
-            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
-            const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
-            const total = isOpponent ? (opponentTotal += (value === 'Inf' ? Infinity : value)) : (playerTotal += (value === 'Inf' ? Infinity : value));
-
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'trading-item';
-            itemDiv.innerHTML = `<p>${name}</p> <button onclick="removeItem('${name}', ${value}, ${isOpponent})">[+]</button>`;
-            list.appendChild(itemDiv);
-
-            totalSpan.textContent = (value === 'Inf' ? 'Inf' : total);
-
-            updateResult();
-            closeModal();
-        }
-
-        function removeItem(name, value, isOpponent) {
-            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
-            const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
-            const total = isOpponent ? (opponentTotal -= (value === 'Inf' ? Infinity : value)) : (playerTotal -= (value === 'Inf' ? Infinity : value));
-            
-            // Remove item from list
-            Array.from(list.children).forEach(itemDiv => {
-                if (itemDiv.textContent.includes(name)) {
-                    list.removeChild(itemDiv);
-                }
-            });
-
-            totalSpan.textContent = (value === 'Inf' ? 'Inf' : total);
-
+        function addItem(targetId, item) {
+            const targetContainer = document.getElementById(targetId);
+            const div = document.createElement('div');
+            div.classList.add('item');
+            div.innerHTML = `
+                <span>${item.name}</span>
+                <button onclick="removeItem(this)">-</button>
+            `;
+            div.dataset.value = item.value;
+            div.dataset.type = item.type;
+            targetContainer.appendChild(div);
+            hideItemList();
             updateResult();
         }
 
-        function addGold(isOpponent = false) {
-            const goldInput = isOpponent ? document.getElementById('opponent-gold') : document.getElementById('player-gold');
+        function removeItem(button) {
+            button.parentElement.remove();
+            updateResult();
+        }
+
+        function addGold(targetId) {
+            const goldInput = document.getElementById(`${targetId}-gold`);
             const goldAmount = parseInt(goldInput.value) || 0;
-            const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
-            const total = isOpponent ? (opponentTotal += goldAmount) : (playerTotal += goldAmount);
-
-            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'trading-item';
-            itemDiv.innerHTML = `<p>Gold: ${goldAmount}</p> <button onclick="removeGold(${goldAmount}, ${isOpponent})">[+]</button>`;
-            list.appendChild(itemDiv);
-
-            goldInput.value = ''; // Clear input field
-            totalSpan.textContent = total;
-
+            const div = document.createElement('div');
+            div.classList.add('gold');
+            div.innerHTML = `
+                <span>${goldAmount} Gold</span>
+                <button onclick="removeGold(this)">-</button>
+            `;
+            div.dataset.value = goldAmount;
+            document.getElementById(targetId).appendChild(div);
+            goldInput.value = '';
             updateResult();
         }
 
-        function removeGold(amount, isOpponent) {
-            const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
-            const total = isOpponent ? (opponentTotal -= amount) : (playerTotal -= amount);
-
-            // Remove gold from list
-            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
-            Array.from(list.children).forEach(itemDiv => {
-                if (itemDiv.textContent.includes(`Gold: ${amount}`)) {
-                    list.removeChild(itemDiv);
-                }
-            });
-
-            totalSpan.textContent = total;
-
+        function removeGold(button) {
+            button.parentElement.remove();
             updateResult();
+        }
+
+        function hideItemList() {
+            document.getElementById('item-list-container').style.display = 'none';
         }
 
         function updateResult() {
-            const resultDiv = document.getElementById('result');
-            if (playerTotal === Infinity && opponentTotal !== Infinity) {
-                resultDiv.textContent = 'Result: Lossing';
-            } else if (playerTotal !== Infinity && opponentTotal === Infinity) {
-                resultDiv.textContent = 'Result: Winning';
-            } else if (playerTotal > opponentTotal) {
-                resultDiv.textContent = 'Result: Winning';
-            } else if (playerTotal < opponentTotal) {
-                resultDiv.textContent = 'Result: Lossing';
+            const yourItems = Array.from(document.getElementById('your-items').children);
+            const opponentItems = Array.from(document.getElementById('opponent-items').children);
+
+            const yourTotal = yourItems.reduce((sum, item) => sum + parseInt(item.dataset.value) || 0, 0);
+            const opponentTotal = opponentItems.reduce((sum, item) => sum + parseInt(item.dataset.value) || 0, 0);
+
+            if (yourTotal > opponentTotal) {
+                document.getElementById('trade-result').textContent = 'Winning';
+            } else if (yourTotal === opponentTotal) {
+                document.getElementById('trade-result').textContent = 'Fair';
             } else {
-                resultDiv.textContent = 'Result: Fair';
+                document.getElementById('trade-result').textContent = 'Losing';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            hideItemList();
+        });
     </script>
 </body>
 </html>
