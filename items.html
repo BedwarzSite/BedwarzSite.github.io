@@ -18,19 +18,67 @@
         h1 {
             font-size: 2rem;
             margin-top: 1rem;
+            display: inline-block;
+        }
+        .filter-buttons {
+            margin-left: 1rem;
+            display: inline-block;
+        }
+        .filter-buttons button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+        .filter-buttons button:hover {
+            background-color: #444;
+        }
+        .sections {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .section {
+            background-color: #333; /* Dark gray background for sections */
+            border: 1px solid #444; /* Slightly lighter gray border */
+            padding: 1rem;
+            margin: 0.5rem;
+            width: 100%; /* Section takes full width */
+            max-width: 1200px; /* Maximum section width */
+            text-align: center;
+        }
+        .item-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; /* Items spread across the width */
+            gap: 20px;
+        }
+        .item {
+            background-color: #222; /* Darker gray for item background */
+            border: 1px solid #444; /* Slightly lighter gray border */
+            padding: 1rem;
+            margin: 0.5rem;
+            width: 48%; /* Items take about half of the section width */
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: left;
+        }
+        .item img {
+            max-width: 200px; /* Set a max width for the images */
+            height: auto;
+            display: block;
         }
         .item-details {
-            background-color: #222;
-            padding: 1rem;
-            margin: 1rem;
-            border: 1px solid #444;
-            max-width: 800px;
-            border-radius: 8px;
+            flex: 1;
+            margin-right: 1rem; /* Space between text and image */
         }
-        .item-details h2 {
-            margin-bottom: 0.5rem;
-        }
-        .item-details p {
+        .item p {
             margin: 0.5rem 0;
         }
         /* Secret rarity styles (red text) */
@@ -49,190 +97,201 @@
         .common {
             color: gray;
         }
-        /* Item list */
-        .item-list {
-            margin-top: 2rem;
+
+        /* Responsive design for larger screens - 2 items per row */
+        @media (min-width: 768px) {
+            .item {
+                width: 48%; /* 2 items per row */
+            }
         }
-        .item-list ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .item-list li {
-            margin: 0.5rem 0;
-        }
-        .item-list a {
-            color: #00f;
-            text-decoration: none;
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .item {
+                width: 100%; /* Items take full width on small screens */
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Item Details</h1>
-
-    <div class="item-details" id="item-details">
-        <!-- Item details will be dynamically added here -->
+    <h1>Items</h1>
+    <div class="filter-buttons">
+        <button onclick="sortItems('alphabetic')">Alphabetic (A - Z)</button>
+        <button onclick="sortItems('rarity')">Rarity</button>
+        <button onclick="sortItems('reverse')">Z - A</button>
     </div>
+    <div class="sections">
+        <div class="section" id="home">
+            <h2><a href="index.html">Home</a></h2>
+        </div>
+        <div class="section" id="items">
+            <h2>Item List</h2>
+            <div class="item-list" id="item-list">
+                <!-- Secret items -->
+                <div class="item secret">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Fall</p>
+                        <p><strong>Rarity:</strong> Secret</p>
+                        <p><strong>Obtainable:</strong> False</p>
+                        <p><strong>Value:</strong> 9999999M</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Fall">
+                </div>
+                <div class="item secret">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Fade</p>
+                        <p><strong>Rarity:</strong> Secret</p>
+                        <p><strong>Obtainable:</strong> False</p>
+                        <p><strong>Value:</strong> Unknown</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Fade">
+                </div>
 
-    <div class="item-list" id="item-list">
-        <h2>Available Items:</h2>
-        <ul>
-            <!-- List of items will be dynamically added here -->
-        </ul>
+                <!-- Legendary items -->
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Warlord</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> False</p>
+                        <p><strong>Value:</strong> 1025</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Warlord">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Grass Block</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> True</p>
+                        <p><strong>Value:</strong> 250</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Grass Block">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Death Lord</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> True</p>
+                        <p><strong>Value:</strong> 670</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Death Lord">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Bluist</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> False</p>
+                        <p><strong>Value:</strong> 3045</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Bluist">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Blue Lord</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> False</p>
+                        <p><strong>Value:</strong> 6750</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Blue Lord">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Angelic</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> False</p>
+                        <p><strong>Value:</strong> 3450</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Angelic">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> On Top</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> True</p>
+                        <p><strong>Value:</strong> 450</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="On Top">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Demonist</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> False</p>
+                        <p><strong>Value:</strong> 3450</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Demonist">
+                </div>
+                <div class="item rare">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Lawn Mowing</p>
+                        <p><strong>Rarity:</strong> Rare</p>
+                        <p><strong>Obtainable:</strong> True</p>
+                        <p><strong>Value:</strong> 25</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Lawn Mowing">
+                </div>
+                <div class="item rare">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Fake Death</p>
+                        <p><strong>Rarity:</strong> Rare</p>
+                        <p><strong>Obtainable:</strong> True</p>
+                        <p><strong>Value:</strong> 230</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Fake Death">
+                </div>
+                <div class="item legendary">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> R6</p>
+                        <p><strong>Rarity:</strong> Legendary</p>
+                        <p><strong>Obtainable:</strong> True</p>
+                        <p><strong>Value:</strong> 420</p>
+                        <p><strong>Type:</strong> Emote</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="R6">
+                </div>
+                <div class="item common">
+                    <div class="item-details">
+                        <p><strong>Name:</strong> Gold</p>
+                        <p><strong>Rarity:</strong> Common</p>
+                        <p><strong>Obtainable:</strong> True</p>
+                        <p><strong>Value:</strong> 1</p>
+                        <p><strong>Type:</strong> Currency</p>
+                    </div>
+                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Gold">
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Define all the items in an object
-        const itemsData = {
-            "Fade": {
-                name: "Fade",
-                rarity: "Secret",
-                obtainable: false,
-                value: "Unknown",
-                type: "Emote",
-                description: "A rare emote that fades in and out."
-            },
-            "Warlord": {
-                name: "Warlord",
-                rarity: "Legendary",
-                obtainable: false,
-                value: 1025,
-                type: "Emote",
-                description: "A legendary emote of a warlord."
-            },
-            "Grass Block": {
-                name: "Grass Block",
-                rarity: "Legendary",
-                obtainable: true,
-                value: 250,
-                type: "Emote",
-                description: "A legendary block emote."
-            },
-            "Death Lord": {
-                name: "Death Lord",
-                rarity: "Legendary",
-                obtainable: true,
-                value: 670,
-                type: "Emote",
-                description: "A legendary emote of the death lord."
-            },
-            "Bluist": {
-                name: "Bluist",
-                rarity: "Legendary",
-                obtainable: false,
-                value: 3045,
-                type: "Emote",
-                description: "A legendary emote of a bluish character."
-            },
-            "Blue Lord": {
-                name: "Blue Lord",
-                rarity: "Legendary",
-                obtainable: false,
-                value: 6750,
-                type: "Emote",
-                description: "A legendary emote of the blue lord."
-            },
-            "Angelic": {
-                name: "Angelic",
-                rarity: "Legendary",
-                obtainable: false,
-                value: 3450,
-                type: "Emote",
-                description: "A legendary angelic emote."
-            },
-            "On Top": {
-                name: "On Top",
-                rarity: "Legendary",
-                obtainable: true,
-                value: 450,
-                type: "Emote",
-                description: "A legendary emote symbolizing superiority."
-            },
-            "Demonist": {
-                name: "Demonist",
-                rarity: "Legendary",
-                obtainable: false,
-                value: 3450,
-                type: "Emote",
-                description: "A legendary emote of a demon."
-            },
-            "Lawn Mowing": {
-                name: "Lawn Mowing",
-                rarity: "Rare",
-                obtainable: true,
-                value: 25,
-                type: "Emote",
-                description: "A rare emote for lawn mowing."
-            },
-            "Fake Death": {
-                name: "Fake Death",
-                rarity: "Rare",
-                obtainable: true,
-                value: 230,
-                type: "Emote",
-                description: "A rare emote for faking death."
-            },
-            "R6": {
-                name: "R6",
-                rarity: "Legendary",
-                obtainable: true,
-                value: 420,
-                type: "Emote",
-                description: "A legendary R6 emote."
-            },
-            "Gold": {
-                name: "Gold",
-                rarity: "Common",
-                obtainable: true,
-                value: 1,
-                type: "Currency",
-                description: "A common currency."
+        const items = [...document.querySelectorAll('.item')];
+        
+        function sortItems(type) {
+            const itemList = document.getElementById('item-list');
+            let sortedItems;
+
+            if (type === 'alphabetic') {
+                sortedItems = items.sort((a, b) => a.querySelector('.item-details p').textContent.localeCompare(b.querySelector('.item-details p').textContent));
+            } else if (type === 'rarity') {
+                const rarityOrder = { 'secret': 1, 'legendary': 2, 'rare': 3, 'common': 4 };
+                sortedItems = items.sort((a, b) => rarityOrder[a.classList[1]] - rarityOrder[b.classList[1]]);
+            } else if (type === 'reverse') {
+                sortedItems = items.sort((a, b) => b.querySelector('.item-details p').textContent.localeCompare(a.querySelector('.item-details p').textContent));
             }
-        };
 
-        // Get the item name from the URL
-        const itemName = decodeURIComponent(window.location.pathname.split('/').pop());
-
-        // Function to display item details
-        function displayItemDetails(itemName) {
-            const item = itemsData[itemName];
-            const itemDetailsDiv = document.getElementById('item-details');
-            const itemListDiv = document.getElementById('item-list');
-
-            if (item) {
-                const rarityClass = item.rarity.toLowerCase(); // Apply rarity class
-                itemDetailsDiv.innerHTML = `
-                    <h2 class="${rarityClass}">${item.name}</h2>
-                    <p><strong>Rarity:</strong> ${item.rarity}</p>
-                    <p><strong>Obtainable:</strong> ${item.obtainable ? 'True' : 'False'}</p>
-                    <p><strong>Value:</strong> ${item.value}</p>
-                    <p><strong>Type:</strong> ${item.type}</p>
-                    <p><strong>Description:</strong> ${item.description}</p>
-                `;
-                itemListDiv.style.display = 'none'; // Hide the item list when an item is found
-            } else {
-                // If no specific item is found, show available items
-                itemDetailsDiv.innerHTML = `<p>Select an item from the list below.</p>`;
-                displayItemList();
-            }
-        }
-
-        // Function to display the list of available items
-        function displayItemList() {
-            const itemListUl = document.querySelector('.item-list ul');
-            itemListUl.innerHTML = ''; // Clear the list before adding items
-
-            for (const item in itemsData) {
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `<a href="items.html/${encodeURIComponent(item)}">${itemsData[item].name}</a>`;
-                itemListUl.appendChild(listItem);
-            }
-        }
-
-        // Call the function to display details
-        if (itemName && itemName !== 'items.html') {
-            displayItemDetails(itemName);
-        } else {
-            displayItemList(); // Show the item list if no specific item is in the URL
+            itemList.innerHTML = '';
+            sortedItems.forEach(item => itemList.appendChild(item));
         }
     </script>
 </body>
