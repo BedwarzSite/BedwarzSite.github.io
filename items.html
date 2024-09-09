@@ -12,74 +12,25 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #000;
-            color: #fff;
+            background-color: #000; /* Black background */
+            color: #fff; /* Default white text */
         }
         h1 {
             font-size: 2rem;
             margin-top: 1rem;
-            display: inline-block;
-        }
-        .filter-buttons {
-            margin-left: 1rem;
-            display: inline-block;
-        }
-        .filter-buttons button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #444;
-            cursor: pointer;
-        }
-        .filter-buttons button:hover {
-            background-color: #444;
-        }
-        .sections {
-            margin-top: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        .section {
-            background-color: #333;
-            border: 1px solid #444;
-            padding: 1rem;
-            margin: 0.5rem;
-            width: 100%;
-            max-width: 1200px;
-            text-align: center;
-        }
-        .item-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 20px;
-        }
-        .item {
-            background-color: #222;
-            border: 1px solid #444;
-            padding: 1rem;
-            margin: 0.5rem;
-            width: 48%;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-align: left;
-            cursor: pointer; /* Make items clickable */
-        }
-        .item img {
-            max-width: 200px;
-            height: auto;
-            display: block;
         }
         .item-details {
-            flex: 1;
-            margin-right: 1rem;
+            background-color: #222;
+            padding: 1rem;
+            margin: 1rem;
+            border: 1px solid #444;
+            max-width: 800px;
+            border-radius: 8px;
         }
-        .item p {
+        .item-details h2 {
+            margin-bottom: 0.5rem;
+        }
+        .item-details p {
             margin: 0.5rem 0;
         }
         /* Secret rarity styles (red text) */
@@ -98,81 +49,157 @@
         .common {
             color: gray;
         }
-        @media (min-width: 768px) {
-            .item {
-                width: 48%;
-            }
-        }
-        @media (max-width: 768px) {
-            .item {
-                width: 100%;
-            }
-        }
     </style>
 </head>
 <body>
-    <h1>Items</h1>
-    <div class="filter-buttons">
-        <button onclick="sortItems('alphabetic')">Alphabetic (A - Z)</button>
-        <button onclick="sortItems('rarity')">Rarity</button>
-        <button onclick="sortItems('reverse')">Z - A</button>
-    </div>
-    <div class="sections">
-        <div class="section" id="home">
-            <h2><a href="index.html">Home</a></h2>
-        </div>
-        <div class="section" id="items">
-            <h2>Item List</h2>
-            <div class="item-list" id="item-list">
-                <!-- Items go here -->
-                <div class="item secret" onclick="redirectToItem('Fall')">
-                    <div class="item-details">
-                        <p><strong>Name:</strong> Fall</p>
-                        <p><strong>Rarity:</strong> Secret</p>
-                        <p><strong>Obtainable:</strong> False</p>
-                        <p><strong>Value:</strong> Unknown</p>
-                        <p><strong>Type:</strong> Emote</p>
-                    </div>
-                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Fall">
-                </div>
-                <div class="item secret" onclick="redirectToItem('Fade')">
-                    <div class="item-details">
-                        <p><strong>Name:</strong> Fade</p>
-                        <p><strong>Rarity:</strong> Secret</p>
-                        <p><strong>Obtainable:</strong> False</p>
-                        <p><strong>Value:</strong> Unknown</p>
-                        <p><strong>Type:</strong> Emote</p>
-                    </div>
-                    <img src="https://cdn.discordapp.com/attachments/your_image_url" alt="Fade">
-                </div>
-                <!-- Add more items similarly -->
-            </div>
-        </div>
+    <h1>Item Details</h1>
+
+    <div class="item-details" id="item-details">
+        <!-- Item details will be dynamically added here -->
     </div>
 
     <script>
-        const items = [...document.querySelectorAll('.item')];
-
-        function sortItems(type) {
-            const itemList = document.getElementById('item-list');
-            let sortedItems;
-
-            if (type === 'alphabetic') {
-                sortedItems = items.sort((a, b) => a.querySelector('.item-details p').textContent.localeCompare(b.querySelector('.item-details p').textContent));
-            } else if (type === 'rarity') {
-                const rarityOrder = { 'secret': 1, 'legendary': 2, 'rare': 3, 'common': 4 };
-                sortedItems = items.sort((a, b) => rarityOrder[a.classList[1]] - rarityOrder[b.classList[1]]);
-            } else if (type === 'reverse') {
-                sortedItems = items.sort((a, b) => b.querySelector('.item-details p').textContent.localeCompare(a.querySelector('.item-details p').textContent));
+        // Define all the items in an object
+        const itemsData = {
+            "Fall": {
+                name: "Fall",
+                rarity: "Secret",
+                obtainable: false,
+                value: "Unknown",
+                type: "Emote",
+                description: "A mysterious emote."
+            },
+            "Fade": {
+                name: "Fade",
+                rarity: "Secret",
+                obtainable: false,
+                value: "Unknown",
+                type: "Emote",
+                description: "A rare emote that fades in and out."
+            },
+            "Warlord": {
+                name: "Warlord",
+                rarity: "Legendary",
+                obtainable: false,
+                value: 1025,
+                type: "Emote",
+                description: "A legendary emote of a warlord."
+            },
+            "Grass Block": {
+                name: "Grass Block",
+                rarity: "Legendary",
+                obtainable: true,
+                value: 250,
+                type: "Emote",
+                description: "A legendary block emote."
+            },
+            "Death Lord": {
+                name: "Death Lord",
+                rarity: "Legendary",
+                obtainable: true,
+                value: 670,
+                type: "Emote",
+                description: "A legendary emote of the death lord."
+            },
+            "Bluist": {
+                name: "Bluist",
+                rarity: "Legendary",
+                obtainable: false,
+                value: 3045,
+                type: "Emote",
+                description: "A legendary emote of a bluish character."
+            },
+            "Blue Lord": {
+                name: "Blue Lord",
+                rarity: "Legendary",
+                obtainable: false,
+                value: 6750,
+                type: "Emote",
+                description: "A legendary emote of the blue lord."
+            },
+            "Angelic": {
+                name: "Angelic",
+                rarity: "Legendary",
+                obtainable: false,
+                value: 3450,
+                type: "Emote",
+                description: "A legendary angelic emote."
+            },
+            "On Top": {
+                name: "On Top",
+                rarity: "Legendary",
+                obtainable: true,
+                value: 450,
+                type: "Emote",
+                description: "A legendary emote symbolizing superiority."
+            },
+            "Demonist": {
+                name: "Demonist",
+                rarity: "Legendary",
+                obtainable: false,
+                value: 3450,
+                type: "Emote",
+                description: "A legendary emote of a demon."
+            },
+            "Lawn Mowing": {
+                name: "Lawn Mowing",
+                rarity: "Rare",
+                obtainable: true,
+                value: 25,
+                type: "Emote",
+                description: "A rare emote for lawn mowing."
+            },
+            "Fake Death": {
+                name: "Fake Death",
+                rarity: "Rare",
+                obtainable: true,
+                value: 230,
+                type: "Emote",
+                description: "A rare emote for faking death."
+            },
+            "R6": {
+                name: "R6",
+                rarity: "Legendary",
+                obtainable: true,
+                value: 420,
+                type: "Emote",
+                description: "A legendary R6 emote."
+            },
+            "Gold": {
+                name: "Gold",
+                rarity: "Common",
+                obtainable: true,
+                value: 1,
+                type: "Currency",
+                description: "A common currency."
             }
+        };
 
-            itemList.innerHTML = '';
-            sortedItems.forEach(item => itemList.appendChild(item));
+        // Get the item name from the URL
+        const itemName = decodeURIComponent(window.location.pathname.split('/').pop());
+
+        // Function to display item details
+        function displayItemDetails(itemName) {
+            const item = itemsData[itemName];
+
+            if (item) {
+                const itemDetailsDiv = document.getElementById('item-details');
+                const rarityClass = item.rarity.toLowerCase(); // Apply rarity class
+                itemDetailsDiv.innerHTML = `
+                    <h2 class="${rarityClass}">${item.name}</h2>
+                    <p><strong>Rarity:</strong> ${item.rarity}</p>
+                    <p><strong>Obtainable:</strong> ${item.obtainable ? 'True' : 'False'}</p>
+                    <p><strong>Value:</strong> ${item.value}</p>
+                    <p><strong>Type:</strong> ${item.type}</p>
+                    <p><strong>Description:</strong> ${item.description}</p>
+                `;
+            } else {
+                document.getElementById('item-details').innerHTML = `<p>Item not found.</p>`;
+            }
         }
 
-        function redirectToItem(itemName) {
-            window.location.href = `item.html/${itemName}`;
-        }
+        // Call the function to display details
+        displayItemDetails(itemName);
     </script>
 </body>
 </html>
