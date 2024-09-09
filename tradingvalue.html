@@ -40,14 +40,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: left;
         }
         .trading-item {
             background-color: #222; /* Darker gray for item background */
             border: 1px solid #444; /* Slightly lighter gray border */
             padding: 0.5rem;
-            margin: 0.5rem;
+            margin: 0.5rem 0;
             width: 100%;
-            text-align: left;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -117,6 +117,17 @@
         .item-list button:hover {
             background-color: #555;
         }
+        .gold-input {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .gold-input input {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            width: 100px;
+        }
     </style>
 </head>
 <body>
@@ -130,6 +141,10 @@
             </div>
             <p>Total Value: <span id="player-total">0</span></p>
             <button onclick="openModal()">Add Item</button>
+            <div class="gold-input">
+                <input type="number" id="player-gold" placeholder="Gold amount">
+                <button onclick="addGold()">Add Gold</button>
+            </div>
         </div>
         
         <!-- Opponent's trading section -->
@@ -140,6 +155,10 @@
             </div>
             <p>Total Value: <span id="opponent-total">0</span></p>
             <button onclick="openModal(true)">Add Item</button>
+            <div class="gold-input">
+                <input type="number" id="opponent-gold" placeholder="Gold amount">
+                <button onclick="addGold(true)">Add Gold</button>
+            </div>
         </div>
     </div>
 
@@ -201,12 +220,71 @@
         }
 
         function addItem(name, value, isOpponent) {
+            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
             const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
             const total = isOpponent ? (opponentTotal += (value === 'Inf' ? Infinity : value)) : (playerTotal += (value === 'Inf' ? Infinity : value));
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'trading-item';
+            itemDiv.innerHTML = `<p>${name}</p> <button onclick="removeItem('${name}', ${value}, ${isOpponent})">[+]</button>`;
+            list.appendChild(itemDiv);
+
             totalSpan.textContent = (value === 'Inf' ? 'Inf' : total);
 
             updateResult();
             closeModal();
+        }
+
+        function removeItem(name, value, isOpponent) {
+            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
+            const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
+            const total = isOpponent ? (opponentTotal -= (value === 'Inf' ? Infinity : value)) : (playerTotal -= (value === 'Inf' ? Infinity : value));
+            
+            // Remove item from list
+            Array.from(list.children).forEach(itemDiv => {
+                if (itemDiv.textContent.includes(name)) {
+                    list.removeChild(itemDiv);
+                }
+            });
+
+            totalSpan.textContent = (value === 'Inf' ? 'Inf' : total);
+
+            updateResult();
+        }
+
+        function addGold(isOpponent = false) {
+            const goldInput = isOpponent ? document.getElementById('opponent-gold') : document.getElementById('player-gold');
+            const goldAmount = parseInt(goldInput.value) || 0;
+            const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
+            const total = isOpponent ? (opponentTotal += goldAmount) : (playerTotal += goldAmount);
+
+            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'trading-item';
+            itemDiv.innerHTML = `<p>Gold: ${goldAmount}</p> <button onclick="removeGold(${goldAmount}, ${isOpponent})">[+]</button>`;
+            list.appendChild(itemDiv);
+
+            goldInput.value = ''; // Clear input field
+            totalSpan.textContent = total;
+
+            updateResult();
+        }
+
+        function removeGold(amount, isOpponent) {
+            const totalSpan = isOpponent ? document.getElementById('opponent-total') : document.getElementById('player-total');
+            const total = isOpponent ? (opponentTotal -= amount) : (playerTotal -= amount);
+
+            // Remove gold from list
+            const list = isOpponent ? document.getElementById('opponent-items') : document.getElementById('player-items');
+            Array.from(list.children).forEach(itemDiv => {
+                if (itemDiv.textContent.includes(`Gold: ${amount}`)) {
+                    list.removeChild(itemDiv);
+                }
+            });
+
+            totalSpan.textContent = total;
+
+            updateResult();
         }
 
         function updateResult() {
